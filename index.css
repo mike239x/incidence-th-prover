@@ -1,0 +1,14 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+#CSConsole {
+    background-color: #FAFAFA;
+    border-top: 1px solid #333333;
+    bottom: 0px;
+    height: 200px;
+    overflow-y: scroll;
+    position: fixed;
+    width: 100%;
+}
