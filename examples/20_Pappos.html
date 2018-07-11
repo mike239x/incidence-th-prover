@@ -5,25 +5,13 @@
             <title>Cindy JS</title>
             <script type="text/javascript" src="../build/js/Cindy.js"></script>
             <link rel="stylesheet" href="../css/cindy.css">
-
-
             </head>
-
 	<body style="font-family:Arial;">
-
         <h1>CindyJS: Pappos's Theorem</h1>
-
-
         <script id='csmove' type='text/x-cindyscript'>
-
         </script>
-
-
         <div  id="CSCanvas" style="width:500px; height:500px; border:2px solid #000000"></div>
-
-
         <script type="text/javascript">
-
             var gslp=[
                       {name:"A", type:"Free", pos:[-5,6]},
                       {name:"B", type:"Free", pos:[6,5]},
@@ -43,14 +31,11 @@
                       {name:"h", type:"Join", args:["C", "B"]},
                       {name:"i", type:"Join", args:["H", "E"]},
                       {name:"I", type:"Meet", args:["i", "h"]}
-
                       ];
             CindyJS({canvasname:"CSCanvas",
                         defaultAppearance: {dimDependent: 0.7},
                         movescript:"csmove",
                         geometry:gslp});
-
         </script>
-
 	</body>
 </html>

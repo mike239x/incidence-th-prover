@@ -11,7 +11,7 @@ cindy = createCindy({
 		{ name: "a", type: "Join", color: [ 0.0, 0.0, 1.0 ], args: [ "D", "E" ], labeled: true },
 		{ name: "b", type: "Join", color: [ 0.0, 0.0, 1.0 ], args: [ "B", "C" ], labeled: true },
 		{ name: "F", type: "Meet", color: [ 1.0, 0.0, 0.0 ], args: [ "a", "b" ], labeled: true },
-		{ name: "Text0", type: "Text", pos: [ 4.0, -1.3445378151260505, -0.8403361344537815 ], color: [ 0.0, 0.0, 0.0 ], button: true, script: "B.xy = (A+C)/2;", text: "clickme" } ],
+		{ name: "Text0", type: "Text", pos: [ 4.0, -1.3445378151260505, -0.8403361344537815 ], color: [ 0.0, 0.0, 0.0 ], pinned: true, button: true, script: "B.xy = (A+C)/2;", text: "clickme" } ],
 	ports: [
 		{ id: "CSCanvas", width: 1301, height: 591, transform: [ { visibleRect: [ -9.06, 9.34, 42.98, -14.3 ] } ], background: "rgb(168,176,192)" } ],
 	cinderella: { build: 1835, version: [ 2, 9, 1835 ] } });

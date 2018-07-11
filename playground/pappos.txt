@@ -1,0 +1,60 @@
+A = [-5,6];
+B = [6,5];
+C = [-5,-5];
+D = [5,-7];
+a = join(A,B);
+b = join(C,D);
+E = [2,0];
+c = join(B,E);
+d = join(D,E);
+F = meet(b,c);
+G = meet(a,d);
+e = join(G,C);
+f = join(F,A);
+H = meet(f,e);
+g = join(A,D);
+h = join(C,B);
+i = join(H,E);
+I = meet(i,h);
+drawall([A,B,C,D,a,b,E,c,d,F,G,e,f,H,g,h,i,I]);
+
+createpoint("A",[-5,6]);
+createpoint("B",[6,5]);
+createpoint("C",[-5,-5]);
+createpoint("D",[5,-7]);
+a = join(A,B);
+b = join(C,D);
+E = [2,0];
+c = join(B,E);
+d = join(D,E);
+F = meet(b,c);
+G = meet(a,d);
+e = join(G,C);
+f = join(F,A);
+H = meet(f,e);
+g = join(A,D);
+h = join(C,B);
+i = join(H,E);
+I = meet(i,h);
+
+
+createpoint("A",[1,1]);
+
+{name:"A", type:"Free", pos:[-5,6]},
+{name:"B", type:"Free", pos:[6,5]},
+{name:"C", type:"Free", pos:[-5,-5]},
+{name:"D", type:"Free", pos:[5,-7]},
+{name:"a", type:"Join", args:["A","B"]},
+{name:"b", type:"Join", args:["C","D"]},
+{name:"E", type:"Free", pos:[2,0]},
+{name:"c", type:"Join", args:["B", "E"]},
+{name:"d", type:"Join", args:["D", "E"]},
+{name:"F", type:"Meet", args:["b", "c"]},
+{name:"G", type:"Meet", args:["a", "d"]},
+{name:"e", type:"Join", args:["G", "C"]},
+{name:"f", type:"Join", args:["F", "A"]},
+{name:"H", type:"Meet", args:["f", "e"]},
+{name:"g", type:"Join", args:["A", "D"]},
+{name:"h", type:"Join", args:["C", "B"]},
+{name:"i", type:"Join", args:["H", "E"]},
+{name:"I", type:"Meet", args:["i", "h"]}
