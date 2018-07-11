@@ -1,4 +1,6 @@
-drawtext(A+(A-F)/|A-F|*1.4-(.2,.2),"A",size->20);
+scripts = {
+  draw :
+`drawtext(A+(A-F)/|A-F|*1.4-(.2,.2),"A",size->20);
 drawtext(B+(B-F)/|B-F|*1.4-(.2,.2),"B",size->20);
 drawtext(C+(C-F)/|C-F|*1.4-(.2,.2),"C",size->20);
 drawtext(D+(D-F)/|D-F|*1.4-(.2,.2),"D",size->20);
@@ -40,4 +42,5 @@ drawtext((pc,-10.3),f(cc),color->(0,0.5,0),size->17);
 drawtext((pb,-10.3),f(bb),color->(0.6,0,0),size->17);
 drawtext((pa,-10.3),f(aa),color->(0,0,0.7),size->17);
 drawtext((-4,-10.3),"+",color->(0,0,0),size->17);
-drawtext((3,-10.3),if(s~=0,"=",if(s<0,">","<")),color->(0,0,0),size->17);
+drawtext((3,-10.3),if(s~=0,"=",if(s<0,">","<")),color->(0,0,0),size->17);`
+}

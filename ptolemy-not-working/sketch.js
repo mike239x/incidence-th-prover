@@ -1,5 +1,5 @@
 createCindy({
-  scripts: "cs*",
+  scripts: scripts,
   defaultAppearance: {
     dimDependent: 0.7,
     fontFamily: "sans-serif",

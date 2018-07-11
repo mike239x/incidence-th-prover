@@ -15,3 +15,6 @@ cindy = createCindy({
 	ports: [
 		{ id: "CSCanvas", width: 1301, height: 591, transform: [ { visibleRect: [ -9.06, 9.34, 42.98, -14.3 ] } ], background: "rgb(168,176,192)" } ],
 	cinderella: { build: 1835, version: [ 2, 9, 1835 ] } });
+
+// TODO this doesn't work
+// cindy.evokeCS("B = (A+C)/2;");
