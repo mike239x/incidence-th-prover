@@ -9,9 +9,9 @@
 	<body style="font-family:Arial;">
     <h1>CindyJS: Playground</h1>
 		<div  id="CSCanvas" style="width:500px; height:500px; border:2px solid #000000"></div>
-    <script id='csdraw' type='text/x-cindyscript'>
+    <!-- <script id='csdraw' type='text/x-cindyscript'>
       a();
-    </script>
+    </script> -->
    	<!-- <script id='csinit' type='text/x-cindyscript'>
 			a():=();
     </script> -->
@@ -25,32 +25,31 @@
           var code=document.getElementById("code").value;
           code = code.replace("\n", " ");
           console.log(code);
-					cindy.evokeCS("a():=("+code+")");
-          // cindy.evokeCS(code);
+					// cindy.evokeCS("a():=("+code+")");
+          cindy.evokeCS(code);
       }
     </script>
 		<div style="position:absolute; top:50px; left:600px" >
 			<!-- 				draw((0,0));     -->
 			<textarea id="code" rows="38" cols="50">
-A = [-5,6];
-B = [6,5];
-C = [-5,-5];
-D = [5,-7];
-a = join(A,B);
-b = join(C,D);
-E = [2,0];
-c = join(B,E);
-d = join(D,E);
-F = meet(b,c);
-G = meet(a,d);
-e = join(G,C);
-f = join(F,A);
-H = meet(f,e);
-g = join(A,D);
-h = join(C,B);
-i = join(H,E);
-I = meet(i,h);
-drawall([A,B,C,D,a,b,E,c,d,F,G,e,f,H,g,h,i,I]);
+createpoint("A",[-5,6]);
+createpoint("B",[6,5]);
+createpoint("C",[-5,-5]);
+createpoint("D",[5,-7]);
+create(["a"],"Join",["A","B"]);
+create(["b"],"Join",["C","D"]);
+createpoint("E",[2,0]);
+create(["c"],"Join",["B","E"]);
+create(["d"],"Join",["D","E"]);
+create(["F"],"Meet",["b","c"]);
+create(["G"],"Meet",["a","d"]);
+create(["e"],"Join",["G","C"]);
+create(["f"],"Join",["F","A"]);
+create(["H"],"Meet",["f","e"]);
+create(["g"],"Join",["A","D"]);
+create(["h"],"Join",["C","B"]);
+create(["i"],"Join",["H","E"]);
+create(["I"],"Meet",["i","h"]);
 			</textarea>
 			<button type="button" onclick="parseCS()">Parse</button>
 		</div>
