@@ -4,14 +4,19 @@
     <meta charset="UTF-8">
     <title>Construction.cdy</title>
     <link rel="stylesheet" href="../css/cindy.css">
+    <!-- this one is needed for buttons functioning -->
+    <link rel="stylesheet" href="../build/js/CindyJS.css">
+    <!-- math.js -->
     <script src="https://unpkg.com/mathjs@5.0.2/dist/math.min.js"></script>
+    <!-- cindy -->
     <script type="text/javascript" src="../build/js/Cindy.js"></script>
+    <!-- default configuration as stuff -->
     <script type="text/javascript" src="cindy-init.js"></script>
+    <!-- the core part of this all -->
     <script type="text/javascript" src="prover.js"></script>
 </head>
 <body>
   <canvas id="CSCanvas"></canvas>
-  <button type="button" onclick='prove_collinear("A","I","D");'>prove something</button>
   <div id="log"> </div>
 </body>
 </html>

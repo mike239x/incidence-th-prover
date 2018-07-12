@@ -21,7 +21,10 @@ let cindy = createCindy({
 		{ name: "g", type: "Join", color: [ 0.0, 0.0, 1.0 ], args: [ "A", "D" ], labeled: true },
 		{ name: "h", type: "Join", color: [ 0.0, 0.0, 1.0 ], args: [ "C", "B" ], labeled: true },
 		{ name: "i", type: "Join", color: [ 0.0, 0.0, 1.0 ], args: [ "H", "E" ], labeled: true },
-		{ name: "I", type: "Meet", color: [ 1.0, 1.0, 0.0 ], args: [ "i", "h" ], labeled: true }],
+		{ name: "I", type: "Meet", color: [ 1.0, 1.0, 0.0 ], args: [ "i", "h" ], labeled: true },
+		{name: "Prove", type: "Button", pos: [5, -1, 1], color: [0.0, 0.0, 0.0], text: "prove something",
+		  script: "javascript(\"clean_log(); prove_collinear('A','I','D');\")"}
+	],
 	ports: [
 		{ id: "CSCanvas", width: 640, height: 448, background: "rgb(168,176,192)" } ]
 });

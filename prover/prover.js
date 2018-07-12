@@ -1,5 +1,10 @@
-function log(text) {
-	document.getElementById("log").innerHTML+=text+'</br>';
+function clean_log(text) {
+	document.getElementById("log").innerHTML='';
+}
+
+
+function log(text, endline = '</br>') {
+	document.getElementById("log").innerHTML+=text+endline;
 }
 
 function prove_collinear(A,B,C) {
@@ -18,5 +23,11 @@ function prove_collinear(A,B,C) {
 	} catch (e) {
 		log(e.message);
 	} finally {
+	}
+}
+
+class something {
+	index(A,B,C) {
+
 	}
 }
