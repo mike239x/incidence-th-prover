@@ -27,7 +27,7 @@ class Configuration {
 		this.points = [];
 	}
 	generateBiQpoly() {
-		//TODO 
+		//TODO
 	}
 	add(obj) {
 		let o = {
@@ -131,7 +131,7 @@ function neededTriples(line) {
 	for (let i = 1; i < l-1; i++) {
 		re.push(new Triple(line[l-1],line[0],line[i]));
 		for(let k = i+1; k < l; k++) {
-			re.push(new Triple(line[i-1],line[i],line[k]);
+			re.push(new Triple(line[i-1],line[i],line[k]));
 		}
 	}
 	// see https://math.stackexchange.com/questions/2849155/paths-of-length-2-in-a-graph-whats-the-minimal-spanning-subset
