@@ -11,7 +11,10 @@ function prove_collinear(A,B,C) {
 			c.add(elem);
 		}
 		log(c.to_HTML());
-		let tm = new TriplesManager();
+		let bm = new BracketsManager();
+		// vector('A','B','C','D','E',tm);
+
+
 	} catch (e) {
 		log(e.message);
 	} finally {
@@ -22,6 +25,9 @@ class Configuration {
 	constructor() {
 		this.lines = [];
 		this.points = [];
+	}
+	generateBiQpoly() {
+		//TODO 
 	}
 	add(obj) {
 		let o = {
@@ -82,37 +88,98 @@ class Configuration {
 	}
 }
 
-class TriplesManager {
+
+/**
+* Takes points ABCDE, where ABC lie on the same line and D&E do not lie on that line,
+* and creates a vector log[ABD] + log[BCE] - log[ABE] - log[BCE]
+* to index the triples we use triples manager tm
+* @param {String} A - points names
+* @param {String} B
+* @param {String} C
+* @param {String} D
+* @param {String} E
+* @param {TriplesManager} tm - triples manager
+* @return {Array of Objects} a representation of a sparse vector object
+*/
+function vector(A,B,C,D,E, bm) {
+	let brackets = [new Bracket(A,B,D), new Bracket(B,C,E), new Bracket(A,B,E), new Bracket(B,C,D)];
+	let indices = [];
+	let c = 1;
+	for (let b of brackets) {
+		indices.push(tm.getIndex(b));
+		c *= b.sign;
+	}
+	let re = [];
+	if (c == -1) {
+		re.push({index:0,coef:1});
+	}
+	for (let x = 0; x < 4; x++) {
+		re.push({index:indices[x],coef:(x<2)?1:-1});
+	}
+	return re;
+}
+
+/**
+* Takes a line, and returns a list of triples to use for the BiQ-polynomials generation
+* @param {Array of Strings} line - list of dots to chose from
+* @return {Array of Triples} - those triples that we should process
+*/
+function neededTriples(line) {
+	let re = [];
+	let l = line.length;
+	if (l < 3) return re; // if there are less then 3 points - do nothing
+	for (let i = 1; i < l-1; i++) {
+		re.push(new Triple(line[l-1],line[0],line[i]));
+		for(let k = i+1; k < l; k++) {
+			re.push(new Triple(line[i-1],line[i],line[k]);
+		}
+	}
+	// see https://math.stackexchange.com/questions/2849155/paths-of-length-2-in-a-graph-whats-the-minimal-spanning-subset
+	// M' = { v[i-1],v[i] - v[i],v[k] | 0 < i < k < n+1 } \ { 0 }
+	return re;
+}
+
+/**
+* Brakets manager, stores indices for brackets and vice versa. Indexation starts at 1.
+* @method getIndex - given an index returns corresponding bracket
+* @method getBracket - given the bracket returns corresponding index
+*/
+
+class BracketsManager {
 	constructor() {
-		this.triples = [];
+		this.brackets = [undefined]; // we want to start counting from 1
 		this.indices = {};
 	}
-	getIndex(triple) {
-		let re = this.indices[triple];
+	getIndex(bracket) {
+		let b = bracket.unsigned();
+		let re = this.indices[t];
 		if (re == undefined) {
-			let t = triple.clone(true);
-			re = this.triples.length;
-			// register new triple:
-			this.triples.push(t);
-			this.indices[t] = re;
+			re = this.brackets.length;
+			// register new bracket:
+			this.brackets.push(b);
+			this.indices[b] = re;
 		}
 		return re;
 	}
-	getTriple(i) {
-		return this.triples[i];
+	getBracket(i) {
+		return this.brackets[i];
 	}
 }
 
+/**
+* Describes a triple of dots
+* @property {String} A - first dot
+* @property {String} B - second dot
+* @property {String} C - third dot
+* @method clone - creates a copy
+* @method toString - string representation of a triple
+* @method fromSting - generates a trilple from its text representation
+*/
 class Triple {
-	constructor(A,B,C, coef = 1) {
-		if (A == undefined) return;
+	constructor(A,B,C) {
 		this.A = A;
 		this.B = B;
 		this.C = C;
-		this.coef = coef;
-		this.placeInOrder('A','B');
-		this.placeInOrder('B','C');
-		this.placeInOrder('A','B');
 	}
 	toString() {
 		return `${this.A},${this.B},${this.C}`;
@@ -126,12 +193,27 @@ class Triple {
 		re.coef = 1;
 		return re;
 	}
-	clone(resetCoef = false) {
-		let re = new Triple(this.A,this.B,this.C);
-		if (resetCoef) {
-			re.coef = 1;
-		}
-		return re;
+	clone() {
+		return new Triple(this.A,this.B,this.C);
+	}
+}
+
+/**
+* Describes a bracket (symbolic determinant) of three dots
+* @property {String} A - first dot
+* @property {String} B - second dot
+* @property {String} C - third dot
+* @property {Number} sign - sign (+1 or -1)
+* TODO write the rest of the documentation, add methods
+*/
+
+class Bracket extends Triple {
+	constructor(A,B,C,sign = 1) {
+		super(A,B,C);
+		this.sign = sign;
+		this.placeInOrder('A','B');
+		this.placeInOrder('B','C');
+		this.placeInOrder('A','B');
 	}
 	placeInOrder(A,B) {
 		if (this[A] > this[B]) {
@@ -139,9 +221,15 @@ class Triple {
 		}
 	}
 	swap(A,B) {
-		this.coef *= -1;
+		this.sign *= -1;
 		let tmp = this[A];
 		this[A] = this[B];
 		this[B] = tmp;
+	}
+	unsigned() {
+		return new Bracket(this.A,this.B,this.C, 1);
+	}
+	clone() {
+		return new Bracket(this.A,this.B,this.C,this.sign);
 	}
 }
