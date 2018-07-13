@@ -2,21 +2,23 @@
 
 function prove_collinear(A,B,C) {
 	try {
-		log(`proving that the points ${A}, ${B} and ${C} are collinear`);
+		log(`Proving that the points ${A}, ${B} and ${C} are collinear.`);
 		let state = cindy.saveState();
-		let configuration = state.geometry;
-		log('read configuration:')
-		let c = new Configuration();
-		for (let elem of configuration) {
-			c.add(elem);
+		let geometry = state.geometry;
+		log('Reading configuration:')
+		let configuration = new Configuration();
+		for (let elem of geometry) {
+			configuration.add(elem);
 		}
-		log(c.HTML());
+		log(configuration.HTML());
 		let bm = new BracketsManager();
-		// vector('A','B','C','D','E',tm);
-
+		let polynomials = configuration.generateBiQpoly(bm);
+		log(`Generated ${polynomials.length} BiQ polynomials, using ${bm.brackets.length-1} symbolic determinants.`);
+		//TODO
 
 	} catch (e) {
-		log(e.message);
+		log(e);
+		console.log(e);
 	} finally {
 	}
 }
@@ -62,7 +64,7 @@ class Configuration {
 				let E = e.name;
 				if (E != D && !this.areIncident(E, l.name)) {
 					for (let ABC of ABCs) {
-						re.push(vector(...ABC, D, E));
+						re.push(vector(...ABC, D, E, bm));
 					}
 				}
 			}
@@ -136,13 +138,13 @@ class Configuration {
 /**
 * Takes points ABCDE, where ABC lie on the same line and D&E do not lie on that line,
 * and creates a vector log[ABD] + log[BCE] - log[ABE] - log[BCE]
-* to index the triples we use triples manager tm
+* to index the brackets we use brackets manager bm
 * @param {String} A - points names
 * @param {String} B
 * @param {String} C
 * @param {String} D
 * @param {String} E
-* @param {TriplesManager} tm - triples manager
+* @param {TriplesManager} bm - triples manager
 * @return {Array of Objects} a representation of a sparse vector object
 */
 function vector(A,B,C,D,E, bm) {
@@ -150,7 +152,7 @@ function vector(A,B,C,D,E, bm) {
 	let indices = [];
 	let c = 1;
 	for (let b of brackets) {
-		indices.push(tm.getIndex(b));
+		indices.push(bm.getIndex(b));
 		c *= b.sign;
 	}
 	let re = [];
@@ -196,7 +198,7 @@ class BracketsManager {
 	}
 	getIndex(bracket) {
 		let b = bracket.unsigned();
-		let re = this.indices[t];
+		let re = this.indices[b];
 		if (re == undefined) {
 			re = this.brackets.length;
 			// register new bracket:
