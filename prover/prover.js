@@ -10,7 +10,7 @@ function prove_collinear(A,B,C) {
 		for (let elem of configuration) {
 			c.add(elem);
 		}
-		log(c.to_HTML());
+		log(c.HTML());
 		let bm = new BracketsManager();
 		// vector('A','B','C','D','E',tm);
 
@@ -21,18 +21,28 @@ function prove_collinear(A,B,C) {
 	}
 }
 
+
+/**
+* class for the geometric configuration. keeps all the dots, lines, and incidies between those
+* @property {Array of Objects} dotes - all the dots
+* @property {Array of Objects} lines - all the lines
+* @property {Set of Strings} incidences - all the incidences in form `${dot},${line}`
+* TODO write down the methods
+*/
 class Configuration {
 	constructor() {
 		this.lines = [];
 		this.points = [];
+		this.incidences = new Set([]);
 	}
 	generateBiQpoly() {
+
 		//TODO
 	}
 	add(obj) {
 		let o = {
 			name : obj.name,
-			incidencies : []
+			incidences : []
 		};
 		switch (obj.type) {
 			case 'Free':
@@ -45,28 +55,32 @@ class Configuration {
 		switch (obj.type) {
 			case 'Meet':
 				for (let line of obj.args) {
-					this.add_incidence(obj.name, line);
+					this.addIncidence(obj.name, line);
 				}
 				break;
 			case 'Join':
 				for (let dot of obj.args) {
-					this.add_incidence(dot, obj.name);
+					this.addIncidence(dot, obj.name);
 				}
 		}
 	}
-	add_incidence(dot, line) {
+	addIncidence(dot, line) {
 		for (let d of this.points) {
 			if (d.name == dot) {
-				d.incidencies.push(line);
+				d.incidences.push(line);
 			}
 		}
 		for (let l of this.lines) {
 			if (l.name == line) {
-				l.incidencies.push(dot);
+				l.incidences.push(dot);
 			}
 		}
+		this.incidences.add(`${dot},${line}`);
 	}
-	to_HTML() {
+	areIncident(dot, line) {
+		return (this.incidences.has(`${dot},${line}`);
+	}
+	HTML() {
 		let re = '<table><tr><td></td>';
 		for (let l of this.lines) {
 			re += `<td>${l.name}</td>`;
@@ -75,7 +89,7 @@ class Configuration {
 		for (let d of this.points) {
 			re += `<tr><td>${d.name}</td>`;
 			for (let l of this.lines) {
-				if (d.incidencies.indexOf(l.name) != -1) {
+				if (this.areIncident(d.name,l.name)) {
 					re += '<td>X</td>';
 				} else {
 					re += '<td></td>';
