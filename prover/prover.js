@@ -35,9 +35,39 @@ class Configuration {
 		this.points = [];
 		this.incidences = new Set([]);
 	}
-	generateBiQpoly() {
-
-		//TODO
+	/**
+	* TODO description
+	* @param bm - brackets manager
+	*/
+	generateBiQpoly(bm) {
+		let re = [];
+		for (let l of this.lines) {
+			let d = undefined;
+			for (let d_ of this.points) {
+				if (!this.areIncident(d_.name, l.name)) {
+					d = d_;
+					break;
+				}
+			}
+			if (d == undefined) {
+				// well it seems all the points lie on the current line, so we can't do anything
+				continue;
+			}
+			let D = d.name;
+			// ok, we got point D fixed
+			let ABCs = neededTriples(l.incidences);
+			// and we got a list of triples for points A,B,C
+			for (let e of this.points) {
+				// we go through all the other points, those that are not D and not on the line l:
+				let E = e.name;
+				if (E != D && !this.areIncident(E, l.name)) {
+					for (let ABC of ABCs) {
+						re.push(vector(...ABC, D, E));
+					}
+				}
+			}
+		}
+		return re;
 	}
 	add(obj) {
 		let o = {
@@ -210,6 +240,13 @@ class Triple {
 	clone() {
 		return new Triple(this.A,this.B,this.C);
 	}
+
+	*[Symbol.iterator] () {
+		yield this.A;
+		yield this.B;
+		yield this.C;
+	}
+
 }
 
 /**
