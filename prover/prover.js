@@ -78,7 +78,7 @@ class Configuration {
 		this.incidences.add(`${dot},${line}`);
 	}
 	areIncident(dot, line) {
-		return (this.incidences.has(`${dot},${line}`);
+		return (this.incidences.has(`${dot},${line}`));
 	}
 	HTML() {
 		let re = '<table><tr><td></td>';
