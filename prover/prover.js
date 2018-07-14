@@ -57,7 +57,7 @@ function prove_collinear(A,B,C) {
 			// console.log(b);
 			try {
 				let y = math.lsolve(decomposition.L, b);
-				return math.usolve(decomposition.U, y);
+				return math_usolve(decomposition.U, y);
 			} catch (e) {
 				//TODO remove conlose logging, add proper logging mb
 				log('error occurred: '+e);
