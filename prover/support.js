@@ -7,6 +7,16 @@ function log(text, endline = '</br>') {
 	document.getElementById("log").innerHTML+=text+endline;
 }
 
+function pictureMatrix(m, id) {
+	//TODO: make Y-axis go down maybe?
+	log(`<span id = ${id}></span>`);
+	let data = [{
+    z: m.toArray(),
+    type: 'heatmap'
+  }];
+	Plotly.newPlot(id, data);
+}
+
 /**
 * Solves M * v = b, where M is an upper-triangular matrix.
 * My version of math.usolve, because usolve right now only supports

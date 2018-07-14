@@ -38,8 +38,15 @@ function prove_collinear(A,B,C) {
 			}
 		}
 		log('Generated a matrix representing all those polynomials.');
+		pictureMatrix(matrix, "pic1");
 		let decomposition = math.lup(matrix);
 		log('Decomposed that matrix using LUP decomposition.');
+		log('L part of the decomposition:');
+		pictureMatrix(decomposition.L, "pic2");
+		log('U part of the decomposition:');
+		pictureMatrix(decomposition.U, "pic3");
+
+		//TODO
 		// console.log(decomposition.U.toArray());
 
 		// let permutation = math.index(decomposition.p);
@@ -75,8 +82,7 @@ function prove_collinear(A,B,C) {
 
 		// let targetVector = vector(A,B,C,D,E,bm);
 
-		console.log(solve(vector('A','I','D','B','H', bm)));
-
+		// console.log(solve(vector('A','I','D','B','H', bm)));
 
 	} catch (e) {
 		log('error occurred: '+e);
