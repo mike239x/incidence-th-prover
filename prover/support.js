@@ -7,6 +7,27 @@ function log(text, endline = '</br>') {
 	document.getElementById("log").innerHTML+=text+endline;
 }
 
+function logConfiguration(c) {
+	let re = '<table><tr><td></td>';
+	for (let l of c.lines) {
+		re += '<td>'+l+'</td>';
+	}
+	re += '</tr>';
+	for (let d of c.points) {
+		re += '<tr><td>'+d+'</td>';
+		for (let l of c.lines) {
+			if (c.areIncident(d,l)) {
+				re += '<td>X</td>';
+			} else {
+				re += '<td></td>';
+			}
+		}
+		re += '</tr>';
+	}
+	re += '</table>';
+	log(re);
+}
+
 function pictureMatrix(m, id) {
 	//TODO: make Y-axis go down maybe?
 	log(`<span id = ${id}></span>`);
@@ -15,6 +36,41 @@ function pictureMatrix(m, id) {
     type: 'heatmap'
   }];
 	Plotly.newPlot(id, data);
+}
+
+class Map {
+	*[Symbol.iterator] () {
+		for (let x of Object.keys(this)) yield x;
+	}
+}
+
+class Set {
+	constructor(iterable) {
+		this.data = {};
+		if (iterable!=undefined) {
+			for (let x of iterable) {
+				this.data[x] = true;
+			}
+		}
+	}
+	add(elem) {
+		this.data[elem] = true;
+	}
+	contains(elem) {
+		return (this.data[elem])?true:false;
+	}
+	// same as contains
+	has(elem) {
+		return (this.data[elem])?true:false;
+	}
+	toArray() {
+		return Object.keys(this.data);
+	}
+	*[Symbol.iterator] () {
+		for (let x of Object.keys(this.data)) {
+			yield x;
+		}
+	}
 }
 
 /**
@@ -31,7 +87,7 @@ function math_usolve(matrix, b) {
 	let h = msize[0];
 	let w = msize[1];
 	let bsize = b.size();
-	assert(bsize[0] == h);
+	assert(bsize[0] <= h);
 	assert(bsize[1] == 1);
 	let re = undefined;
 	if (w == h) {
