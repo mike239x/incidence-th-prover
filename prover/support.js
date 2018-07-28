@@ -92,6 +92,7 @@ function math_usolve(matrix, b) {
 	let re = undefined;
 	if (w == h) {
 		// M is a square matrix, use the standard function
+		b.resize([h,1]);
 		re = math.usolve(matrix,b);
 	} else if (w > h) {
 		matrix.resize([w,w]);
@@ -113,6 +114,42 @@ function math_usolve(matrix, b) {
 	}
 	return re;
 }
+
+function math_lsolve(matrix, b) {
+	let msize = matrix.size();
+	let h = msize[0];
+	let w = msize[1];
+	let bsize = b.size();
+	assert(bsize[0] <= h);
+	assert(bsize[1] == 1);
+	let re = undefined;
+	// L matrix is normaly square
+	if (w == h) {
+		// M is a square matrix, use the standard function
+		b.resize([h,1]);
+		re = math.usolve(matrix,b);
+	}
+	//  else if (w > h) {
+	// 	matrix.resize([w,w]);
+	// 	b.resize([w,1]);
+	// 	re = math.usolve(matrix,b);
+	// 	matrix.resize([h,w]);
+	// 	b.resize([h,1]);
+	// } else if (w < h) {
+	// 	matrix.resize([h,h]);
+	// 	re = math.usolve(matrix,b);
+	// 	re.resize([w,1]);
+	// 	matrix.resize([h,w]);
+	// 	// or:
+	// 	// matrix.resize([w,w]);
+	// 	// // TODO: do some checks that last h-w elements of vector b are zeros
+	// 	// b.resize([w,1]);
+	// 	// re = math.usolve(matrix,b);
+	// 	// matrix.resize([h,w]);
+	// }
+	return re;
+}
+
 
 function assert(a) {
 	if (!a) throw "AssertionError";

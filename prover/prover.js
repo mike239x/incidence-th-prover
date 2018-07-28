@@ -1,8 +1,13 @@
 'use strict';
 
+// math.config({
+//   number: 'Fraction'
+// })
+
 // TODO rename to proveCollinear or mb proveCollinearity
 function prove_collinear(A,B,C) {
 	try {
+		// TODO: if ciny thinks ABC are not collinear tell that to the user
 		log(`Proving that the points ${A}, ${B} and ${C} are collinear.`);
 		log('Reading configuration:')
 		let configuration = new Configuration();
@@ -29,10 +34,51 @@ function prove_collinear(A,B,C) {
 		pictureMatrix(decomposition.L, "pic2");
 		log('U part of the decomposition:');
 		pictureMatrix(decomposition.U, "pic3");
-
+		// let permutation = math.index(decomposition.p);
+		let tested_vectors = math.sparse([[]])
+		let result;
+		let the_poly;
+		i = 0;
 		for (let poly of targetBQpoly(A,B,C, configuration)) {
 			log(`trying to prove ${poly}`);
+				let b = math.sparse([[]]);
+				for (let c of poly.vector()) {
+					// b.set([c.index,0], c.coef); // with no permutation
+					b.set([decomposition.p[c.index],0], c.value); // with permutation
+					tested_vectors.set([decomposition.p[c.index],i], c.value);
+				}
+				i++;
+				// console.log(b);
+				// b =  b.subset(permutation);
+				// console.log(b);
+				let x_;
+				let y;
+				try {
+					x_ = math_lsolve(decomposition.L, b);
+					try {
+						y = math_usolve(decomposition.U, x_);
+						log('succeed!');
+						result = y;
+						console.log(result);
+						the_poly = poly;
+						break;
+					} catch (e) {
+						//TODO remove conlose logging, add proper logging mb
+						console.log(`error by prooving ${poly}`);
+						console.log('fail of the 2nd type');
+						console.log(e.message);
+					}
+				} catch (e) {
+					//TODO remove conlose logging, add proper logging mb
+					console.log(`error by prooving ${poly}`);
+					console.log('fail of the 1st type');
+					console.log(e.message);
+				}
 		}
+		pictureMatrix(tested_vectors, "pic4");
+		// pictureMatrix(result, "pic5");
+
+
 		// log(`Generated ${polynomials.length} BiQ polynomials, using ${BracketsManager.brackets.length-1} symbolic determinants.`);
 
 		// // we want to make a sparse matrix with all those vectors, but sadly enough
@@ -46,29 +92,10 @@ function prove_collinear(A,B,C) {
 		// // set function resizes it on its own, leading to somewhat better performance
 		// // matrix.resize([BracketsManager.brackets.length,polynomials.length+1]);
 		//
-		// // let permutation = math.index(decomposition.p);
 		//
 		// // TODO find a proper name for this function
 		// function solve(polynomial) {
 		//
-		// 	let b = math.sparse([[]]);
-		// 	for (let c of polynomial) {
-		// 		// b.set([c.index,0], c.coef); // with no permutation
-		// 		b.set([decomposition.p[c.index],0], c.coef); // with permutation
-		// 	}
-		// 	// console.log(b);
-		// 	// b =  b.subset(permutation);
-		// 	// console.log(b);
-		// 	try {
-		// 		let y = math.lsolve(decomposition.L, b);
-		// 		return math_usolve(decomposition.U, y);
-		// 	} catch (e) {
-		// 		//TODO remove conlose logging, add proper logging mb
-		// 		log('error occurred: '+e);
-		// 		console.log(e);
-		// 		return undefined;
-		// 	} finally {
-		// 	}
 		// }
 		//
 		// //TODO

@@ -196,7 +196,16 @@ function * givenBQpoly(config) {
 }
 
 function * targetBQpoly(A,B,C, config) {
-  yield new BQpoly('A','B','C','D','E');
+  for (let D of config.points) {
+    // TODO: check if D lies on the line ABC
+    if (D == A || D == B || D == C) continue;
+    for (let E of config.points) {
+      // TODO: check if E lies on the line ABC
+      if (E == A || E == B || E == C || E == D) continue;
+      // TODO: check if D,B,E lie on the same line
+      yield new BQpoly(A,B,C,D,E)
+    }
+  }
 }
 
 
