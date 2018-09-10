@@ -15,5 +15,7 @@ Some side notes:
  `cindy.evokeCS('print(incidences(I))')` prints `[g,h,i]` instead of only `[h,i]`.
 
 [Link](http://mike239x.github.io/incidence-th-prover/prover) to the main folder.
+[Link](http://mike239x.github.io/incidence-th-prover/prover2) to the test folder.
+
 
 mike239x 12/07/2018

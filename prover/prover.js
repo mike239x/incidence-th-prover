@@ -1,21 +1,23 @@
 'use strict';
 
-// math.config({
-//   number: 'Fraction'
-// })
+ math.config({
+   number: 'Fraction'
+ })
 
 // TODO rename to proveCollinear or mb proveCollinearity
 function prove_collinear(A,B,C) {
 	try {
-		// TODO: if ciny thinks ABC are not collinear tell that to the user
+		// TODO: if cindy thinks ABC are not collinear tell that to the user
+
 		log(`Proving that the points ${A}, ${B} and ${C} are collinear.`);
 		log('Reading configuration:')
 		let configuration = new Configuration();
 		configuration.generateFrom(cindy);
 		logConfiguration(configuration);
+
 		let matrix = math.sparse([[]]);
 		// // first goes the 2 * log(-1)
-		// matrix.set([0,0], 2);
+		matrix.set([0,0], 2);
 		// next go through all the polynomials (already represented as vectors) and
 		// add them to the matrix
 		let i = 0;
@@ -39,6 +41,7 @@ function prove_collinear(A,B,C) {
 		let result;
 		let the_poly;
 		i = 0;
+
 		for (let poly of targetBQpoly(A,B,C, configuration)) {
 			log(`trying to prove ${poly}`);
 				let b = math.sparse([[]]);
@@ -48,35 +51,30 @@ function prove_collinear(A,B,C) {
 					tested_vectors.set([decomposition.p[c.index],i], c.value);
 				}
 				i++;
-				// console.log(b);
 				// b =  b.subset(permutation);
 				// console.log(b);
-				let x_;
 				let y;
+				let x;
 				try {
-					x_ = math_lsolve(decomposition.L, b);
-					try {
-						y = math_usolve(decomposition.U, x_);
-						log('succeed!');
-						result = y;
-						console.log(result);
-						the_poly = poly;
-						break;
-					} catch (e) {
-						//TODO remove conlose logging, add proper logging mb
-						console.log(`error by prooving ${poly}`);
-						console.log('fail of the 2nd type');
-						console.log(e.message);
-					}
+          y = math_lsolve(decomposition.L, b);
+          x = math_usolve(decomposition.U, y);
+          log('succeed!');
+          result = x;
+          //console.log(result);
+          the_poly = poly;
+
+          log(`tested vectors:`);
+          pictureMatrix(tested_vectors, "pic4");
+          log(`the following combination gives a good vector thing`);
+          pictureMatrix(result, "pic5");
+          log(`result times matrix is:`);
+          pictureMatrix(math.multiply(decomposition.L, math.multiply(decomposition.U, result)), "pic6");
+
+          break;
 				} catch (e) {
-					//TODO remove conlose logging, add proper logging mb
-					console.log(`error by prooving ${poly}`);
-					console.log('fail of the 1st type');
-					console.log(e.message);
+            log(`failed`);
 				}
 		}
-		pictureMatrix(tested_vectors, "pic4");
-		// pictureMatrix(result, "pic5");
 
 
 		// log(`Generated ${polynomials.length} BiQ polynomials, using ${BracketsManager.brackets.length-1} symbolic determinants.`);

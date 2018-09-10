@@ -196,6 +196,7 @@ function * givenBQpoly(config) {
 }
 
 function * targetBQpoly(A,B,C, config) {
+  // TODO: permute A, B & C
   for (let D of config.points) {
     // TODO: check if D lies on the line ABC
     if (D == A || D == B || D == C) continue;
