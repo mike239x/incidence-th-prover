@@ -1,14 +1,10 @@
-# cindy-init
-
-Starter of Cindy. Provides `cindy` variable to interact with Cindy.
-
 # geometry
 
 All the geometry stuff.
 
 # prover
 
-The main part.
+The main part, implementation of a proof-generating algorithm.
 
 # support
 
