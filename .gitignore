@@ -1,0 +1,6 @@
+*.swp
+cindy-basics/*
+server.sh
+playground/*
+math-tests/*
+bulid/*
