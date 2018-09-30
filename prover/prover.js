@@ -1,10 +1,6 @@
 // use strict js typing
 'use strict';
 
-let test = undefined; //TODO
-
-// use fractions for computations (instead of doubles)
-
 // main function, tries to prove that the given 3 points are collinear
 function prove_collinear(A,B,C) {
 
