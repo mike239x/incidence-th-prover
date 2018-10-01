@@ -216,7 +216,7 @@ function prove_collinear(A,B,C) {
     if (combination == undefined) continue;
     // if we can't generate this equation we try next one
     proof_found = true;
-    // we found a way to generate this equationl presenting proof to the user
+    // we found a way to generate this equation; presenting proof to the user
     log(eq.toString());
     let first = true;
     for (let i = 0; i < w; i++) {
