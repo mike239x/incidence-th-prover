@@ -16,20 +16,20 @@ function prove_collinear(A,B,C) {
     variables : [],
     indices : {},
     getIndex : function (variable) {
-      let re = this.indices[variable];
-      if (re == undefined) {
-        re = this.register(variable);
+      let result = this.indices[variable];
+      if (result == undefined) {
+        result = this.register(variable);
       }
-      return re;
+      return result;
     },
     getVariable : function (i) {
       return this.variables[i];
     },
     register : function (variable) {
-      let re = this.variables.length;
+      let result = this.variables.length;
       this.variables.push(variable);
-      this.indices[variable] = re;
-      return re;
+      this.indices[variable] = result;
+      return result;
     }
   };
 
@@ -77,7 +77,7 @@ function prove_collinear(A,B,C) {
         }
       }
       if (n < 2) {
-        // well it seems we do not have enough points lying not on the current line
+        // we do not have enough points lying not on the current line
         continue;
       }
       let X = undefined;
@@ -139,7 +139,7 @@ function prove_collinear(A,B,C) {
   // p(M)x=p(b) with p(M) = LU
   // L is a lower triangular matrix (sometimes lower trapezoid matrix)
   // with 1 on the main diagonal;
-  // U is an upper triangular matrix in row echolon form (at leat I think so)
+  // U is an upper triangular matrix in row echolon form (at least I think so)
   // this way we can always use math.lsolve and then math.usolve
   // to get x.
 
